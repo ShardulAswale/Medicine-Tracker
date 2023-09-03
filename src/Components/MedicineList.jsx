@@ -19,6 +19,7 @@ function MedicineList() {
   const [medicationRecord, setMedicationRecord] =
     useState(medicationRecordInit);
   const [editMode, setEditMode] = useState(false);
+  const [counterToggle, setCounterToggle] = useState(false);
 
   const handleToggleTaken = (medicineId, time) => {
     setMedicationRecord((prevState) => ({
@@ -98,7 +99,9 @@ function MedicineList() {
   return (
     <div>
       <h2>Medicines Schedule</h2>
-      <Button variant="contained" onClick={handleEditClick}>{editMode ? "Cancel" : "Edit"}</Button>
+      <Button variant="contained" onClick={handleEditClick}>
+        {editMode ? "Cancel" : "Edit"}
+      </Button>
       {editMode ? (
         <MedicineEdit
           medicationRecord={medicationRecord}
@@ -106,55 +109,61 @@ function MedicineList() {
           handleToggleTaken={handleToggleTaken}
           handleToggleFlag={handleToggleFlag}
           handleSaveClick={handleSaveClick}
+          counterToggle={counterToggle}
+          setCounterToggle={setCounterToggle}
         />
       ) : (
         <MedicineView
           medicationRecord={medicationRecord}
           handleToggleTaken={handleToggleTaken}
           setMedicationRecord={setMedicationRecord}
+          
         />
       )}
-
-      <div>
-        <h2>Counters</h2>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Counter</TableCell>
-                <TableCell>Value</TableCell>
-                <TableCell>Actions</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {Object.keys(medicationRecord.counts).map((counterName) => (
-                <TableRow key={counterName}>
-                  <TableCell>{counterName}</TableCell>
-                  <TableCell>{medicationRecord.counts[counterName]}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      onClick={() => handleIncrement(counterName)}
-                      color="primary"
-                    >
-                      {counterName}
-                      <Add />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      onClick={() => handleDecrement(counterName)}
-                      color="secondary"
-                    >
-                      <Remove />
-                    </IconButton>
-                  </TableCell>
+      {!counterToggle && (
+        <div>
+          <h2>Counters</h2>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Counter</TableCell>
+                  <TableCell>Value</TableCell>
+                  <TableCell>Actions</TableCell>
+                  <TableCell>Actions</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+              </TableHead>
+              <TableBody>
+                {Object.keys(medicationRecord.counts).map((counterName) => (
+                  <TableRow key={counterName}>
+                    <TableCell>{counterName}</TableCell>
+                    <TableCell>
+                      {medicationRecord.counts[counterName]}
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() => handleIncrement(counterName)}
+                        color="primary"
+                      >
+                        {counterName}
+                        <Add />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() => handleDecrement(counterName)}
+                        color="secondary"
+                      >
+                        <Remove />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      )}
     </div>
   );
 }

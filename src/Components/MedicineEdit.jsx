@@ -11,6 +11,9 @@ import {
   Button,
   TextField,
   InputAdornment,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 import { MedicineViewPropTypes } from "./propValidations";
 import { Medication } from "@mui/icons-material";
@@ -19,6 +22,8 @@ function MedicineEdit({
   medicationRecord,
   setMedicationRecord,
   handleToggleFlag,
+  counterToggle,
+  setCounterToggle,
 }) {
   const [newMedicineName, setNewMedicineName] = useState("");
   const [editMedicineId, setEditMedicineId] = useState(null);
@@ -59,14 +64,13 @@ function MedicineEdit({
     setMedicationRecord((prevState) => {
       const updatedMedicines = { ...prevState.medicines };
       delete updatedMedicines[medicineId];
-  
+
       return {
         ...prevState,
         medicines: updatedMedicines,
       };
     });
   };
-  
 
   return (
     <div>
@@ -93,9 +97,7 @@ function MedicineEdit({
                     {isEditing ? (
                       <TextField
                         value={editedMedicineName}
-                        onChange={(e) =>
-                          setEditedMedicineName(e.target.value)
-                        }
+                        onChange={(e) => setEditedMedicineName(e.target.value)}
                       />
                     ) : (
                       medicine.name
@@ -174,6 +176,19 @@ function MedicineEdit({
         >
           Add
         </Button>
+      </div>
+      <div>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                value={counterToggle}
+                onChange={() => setCounterToggle(!counterToggle)}
+              />
+            }
+            label="Counters"
+          />
+        </FormGroup>
       </div>
     </div>
   );
