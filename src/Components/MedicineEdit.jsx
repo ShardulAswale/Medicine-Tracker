@@ -16,7 +16,15 @@ import {
   Switch,
 } from "@mui/material";
 import { MedicineViewPropTypes } from "./propValidations";
-import { Medication } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  EditOutlined,
+  Medication,
+  OfflinePin,
+  OfflinePinOutlined,
+  SaveOutlined,
+} from "@mui/icons-material";
 
 function MedicineEdit({
   medicationRecord,
@@ -107,25 +115,32 @@ function MedicineEdit({
                     <Checkbox
                       checked={medicine.morning.flag}
                       onChange={() => handleToggleFlag(medicineId, "morning")}
+                      icon={<OfflinePinOutlined />}
+                      checkedIcon={<OfflinePin />}
                     />
                   </TableCell>
                   <TableCell>
                     <Checkbox
                       checked={medicine.afternoon.flag}
                       onChange={() => handleToggleFlag(medicineId, "afternoon")}
+                      icon={<OfflinePinOutlined />}
+                      checkedIcon={<OfflinePin />}
                     />
                   </TableCell>
                   <TableCell>
                     <Checkbox
                       checked={medicine.night.flag}
                       onChange={() => handleToggleFlag(medicineId, "night")}
+                      icon={<OfflinePinOutlined />}
+                      checkedIcon={<OfflinePin />}
                     />
                   </TableCell>
                   <TableCell>
                     {isEditing ? (
                       <Button
                         onClick={() => handleSaveNameClick(medicineId)}
-                        variant="outlined"
+                        variant="contained"
+                        startIcon={<SaveOutlined />}
                       >
                         Save
                       </Button>
@@ -134,7 +149,8 @@ function MedicineEdit({
                         onClick={() =>
                           handleEditNameClick(medicineId, medicine.name)
                         }
-                        variant="outlined"
+                        variant="contained"
+                        startIcon={<EditOutlined />}
                       >
                         Edit Name
                       </Button>
@@ -142,8 +158,9 @@ function MedicineEdit({
                   </TableCell>
                   <TableCell>
                     <Button
-                      onClick={() => handleDeleteMedicine(medicineId)}
                       variant="contained"
+                      onClick={() => handleDeleteMedicine(medicineId)}
+                      startIcon={<Delete />}
                     >
                       Delete
                     </Button>
@@ -171,8 +188,9 @@ function MedicineEdit({
         />
         <Button
           onClick={handleAddNewMedicine}
-          variant="outlined"
+          variant="contained"
           color="primary"
+          endIcon={<Add />}
         >
           Add
         </Button>

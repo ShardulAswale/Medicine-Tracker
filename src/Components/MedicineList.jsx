@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import MedicineView from "./MedicineView";
 import MedicineEdit from "./MedicineEdit";
 import {
@@ -10,16 +10,20 @@ import {
   TableHead,
   TableRow,
   Paper,
-  IconButton,
 } from "@mui/material";
-import { Add, Remove } from "@mui/icons-material";
+import {
+  Add,
+  EditOutlined,
+  Remove,
+  SaveOutlined,
+} from "@mui/icons-material";
 import medicationRecordInit from "./medicationRecordInit";
 
 function MedicineList() {
   const [medicationRecord, setMedicationRecord] =
     useState(medicationRecordInit);
   const [editMode, setEditMode] = useState(false);
-  const [counterToggle, setCounterToggle] = useState(false);
+  const [counterToggle, setCounterToggle] = useState(true);
 
   const handleToggleTaken = (medicineId, time) => {
     setMedicationRecord((prevState) => ({
@@ -91,7 +95,10 @@ function MedicineList() {
       ...prevState,
       counts: {
         ...prevState.counts,
-        [counterName]: prevState.counts[counterName] - 1,
+        [counterName]:
+          prevState.counts[counterName] > 0
+            ? prevState.counts[counterName] - 1
+            : prevState.counts[counterName],
       },
     }));
   };
@@ -99,8 +106,12 @@ function MedicineList() {
   return (
     <div>
       <h2>Medicines Schedule</h2>
-      <Button variant="contained" onClick={handleEditClick}>
-        {editMode ? "Cancel" : "Edit"}
+      <Button
+        variant="contained"
+        onClick={handleEditClick}
+        startIcon={!editMode ? <EditOutlined /> : <SaveOutlined />}
+      >
+        {editMode ? "Save" : "Edit"}
       </Button>
       {editMode ? (
         <MedicineEdit
@@ -117,10 +128,9 @@ function MedicineList() {
           medicationRecord={medicationRecord}
           handleToggleTaken={handleToggleTaken}
           setMedicationRecord={setMedicationRecord}
-          
         />
       )}
-      {!counterToggle && (
+      {counterToggle && (
         <div>
           <h2>Counters</h2>
           <TableContainer component={Paper}>
@@ -141,21 +151,23 @@ function MedicineList() {
                       {medicationRecord.counts[counterName]}
                     </TableCell>
                     <TableCell>
-                      <IconButton
+                      <Button
                         onClick={() => handleIncrement(counterName)}
                         color="primary"
+                        variant="contained"
+                        endIcon={<Add />}
                       >
                         {counterName}
-                        <Add />
-                      </IconButton>
+                      </Button>
                     </TableCell>
                     <TableCell>
-                      <IconButton
+                      <Button
                         onClick={() => handleDecrement(counterName)}
                         color="secondary"
+                        variant="outlined"
                       >
                         <Remove />
-                      </IconButton>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
