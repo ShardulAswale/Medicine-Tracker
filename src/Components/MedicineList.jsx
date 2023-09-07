@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MedicineView from "./MedicineView";
 import MedicineEdit from "./MedicineEdit";
 import {
@@ -11,19 +11,48 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import {
-  Add,
-  EditOutlined,
-  Remove,
-  SaveOutlined,
-} from "@mui/icons-material";
-import medicationRecordInit from "./medicationRecordInit";
+import { Add, EditOutlined, Remove, SaveOutlined } from "@mui/icons-material";
+import { useMedicationRecord } from "./stateManager";
 
 function MedicineList() {
-  const [medicationRecord, setMedicationRecord] =
-    useState(medicationRecordInit);
+  // const [medicationRecord, setMedicationRecord] = useState(
+  //   localStorage.getItem("medicationRecord")
+  //     ? JSON.parse(localStorage.getItem("medicationRecord"))
+  //     : medicationRecordInit
+  // );
+  const [medicationRecord, setMedicationRecord] = useMedicationRecord()
   const [editMode, setEditMode] = useState(false);
   const [counterToggle, setCounterToggle] = useState(true);
+
+  // Function to save the medication record to both local storage and the JSON server
+  const saveMedicationRecord = async () => {
+    // Save to local storage
+    localStorage.setItem("medicationRecord", JSON.stringify(medicationRecord));
+
+    // Send a POST request to your JSON server
+    try {
+      const response = await fetch("http://127.0.0.1:3001/medicine", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(medicationRecord),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save data to the server.");
+      }
+
+      // Optionally, you can handle success here
+    } catch (error) {
+      console.error("Error saving data to the server:", error);
+    }
+  };
+
+  // Automatically update local storage whenever the medicationRecord changes
+  useEffect(() => {
+    localStorage.setItem("medicationRecord", JSON.stringify(medicationRecord));
+  }, [medicationRecord]);
 
   const handleToggleTaken = (medicineId, time) => {
     setMedicationRecord((prevState) => ({
@@ -176,6 +205,13 @@ function MedicineList() {
           </TableContainer>
         </div>
       )}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={saveMedicationRecord}
+      >
+        Save
+      </Button>
     </div>
   );
 }

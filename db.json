@@ -1,12 +1,90 @@
 {
-  "posts": [
-    { "id": 1, "title": "Post 1" },
-    { "id": 2, "title": "Post 2" },
-    { "id": 3, "title": "Post 3" }
-  ],
-  "medicine":[
-    { "id": 1, "title": "Post 1" },
-    { "id": 2, "title": "Post 2" },
-    { "id": 3, "title": "Post 3" }
+  "medicine": [
+    {
+      "id": 1,
+      "date": "2023-08-24",
+      "medicines": {
+        "1": {
+          "id": 1,
+          "name": "Vitamin D",
+          "morning": {
+            "flag": true,
+            "taken": false
+          },
+          "afternoon": {
+            "flag": false,
+            "taken": false
+          },
+          "night": {
+            "flag": true,
+            "taken": false
+          }
+        },
+        "2": {
+          "id": 2,
+          "name": "Calcium",
+          "morning": {
+            "flag": false,
+            "taken": false
+          },
+          "afternoon": {
+            "flag": true,
+            "taken": false
+          },
+          "night": {
+            "flag": false,
+            "taken": false
+          }
+        }
+      },
+      "counts": {
+        "poop": 2,
+        "urine": 3,
+        "feeding": 1
+      }
+    },
+    {
+      "id": 2,
+      "date": "2023-08-25",
+      "medicines": {
+        "1": {
+          "id": 1,
+          "name": "Vitamin D",
+          "morning": {
+            "flag": true,
+            "taken": false
+          },
+          "afternoon": {
+            "flag": false,
+            "taken": false
+          },
+          "night": {
+            "flag": true,
+            "taken": false
+          }
+        },
+        "2": {
+          "id": 2,
+          "name": "Calcium",
+          "morning": {
+            "flag": false,
+            "taken": false
+          },
+          "afternoon": {
+            "flag": true,
+            "taken": false
+          },
+          "night": {
+            "flag": false,
+            "taken": false
+          }
+        }
+      },
+      "counts": {
+        "poop": 2,
+        "urine": 3,
+        "feeding": 1
+      }
+    }
   ]
 }
